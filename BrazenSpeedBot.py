@@ -13,11 +13,15 @@ class TestBot:
     def test_connection(self, test_url):
         driver = self.driver
         driver.get(test_url)
-
+        
+        # sleeping helps assure driver can find element
+        # also helps to not look too much like a bot
         time.sleep(5)
+       
         go_button = driver.find_element_by_xpath('//*[@id="container"]/div/div[3]/div/div/div/div[2]/div[3]/div[1]/a')
         go_button.click()
-
+        
+        # conntection test shouldn't take longer than a minute to run, with a lil padding for above reason too
         time.sleep(60)
 
         downs = driver.find_element_by_xpath(
@@ -48,10 +52,13 @@ class TestBot:
 
         pw_input = driver.find_element_by_xpath('//*[@id="react-root"]/div/div/div[2]/main/div/div/div[2]/form/div/div[2]/label/div/div[2]/div/input')
         pw_input.send_keys(self.password)
+        
+        # sending RETURN is a convenient alternative to locating an element
         pw_input.send_keys(Keys.RETURN)
 
         time.sleep(5)
 
+        # cumberson xpath, but interactive/keys-sendable input box can be difficult to locate by css
         bird_box = driver.find_element_by_xpath('//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/div[2]/div[1]/div/div/div/div[2]/div[1]/div/div/div/div/div/div/div/div/div/div[1]/div/div/div/div[2]/div')
         bird_box.click()
         bird_box.send_keys(message)
@@ -62,4 +69,5 @@ class TestBot:
 
         tweet_button.click()
 
-        time.sleep(5)
+        ### driver is not closed in this function ###
+        
